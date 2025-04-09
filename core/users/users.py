@@ -8,7 +8,6 @@ class User:
             user_name: str, 
             isbloked: bool = False, 
             isbanned: bool = False, 
-            isadmin: bool = False
         ):
         
         self.id = user_id
@@ -20,7 +19,6 @@ class User:
 
         self.isbloked = isbloked
         self.isbanned = isbanned
-        self.isadmin = isadmin
     
     
 

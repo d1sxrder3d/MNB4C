@@ -2,6 +2,8 @@
 import sqlite3
 import os
 from typing import List, Optional
+from core.date.date import Date
+
 
 
 class GiveawayDB:
@@ -36,7 +38,7 @@ class GiveawayDB:
         conn.commit()
         conn.close()
 
-    def add_contest(self, giveaway_title: str, creator_id: int, needed_channels: List[str], is_in_catalog: bool = False, end_date: str = None):
+    def add_contest(self, giveaway_title: str, creator_id: int, needed_channels: List[str], is_in_catalog: bool = False, end_date: Date = None):
         """Adds a new contest to the database."""
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
