@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-BOT_TOKEN = os.getenv("BOT_TOKEN")
+BOT_TOKEN = os.getenv("USERS_BOT_TOKEN")
 
 
 logging.basicConfig(level=logging.INFO)
@@ -33,7 +33,7 @@ async def echo(message: types.Message):
 
 
 
-async def main():
+async def start_users_bot():
     
     try:
         await dp.start_polling(bot)
@@ -42,5 +42,3 @@ async def main():
         
         await bot.session.close()
 
-if __name__ == "__main__":
-    asyncio.run(main())

@@ -2,7 +2,15 @@
 
 
 class User:
-    def __init__(self, user_id, user_name, isbloked = False, isbanned = False, isadmin = False):
+    def __init__(
+            self, 
+            user_id: int, 
+            user_name: str, 
+            isbloked: bool = False, 
+            isbanned: bool = False, 
+            isadmin: bool = False
+        ):
+        
         self.id = user_id
         self.name = user_name
 
