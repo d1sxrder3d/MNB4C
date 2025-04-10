@@ -15,12 +15,13 @@ class AdminDB:
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
 
+        cursor.execute("PRAGMA foreign_keys = ON")
+
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS admins_db (
                 admin_id INTEGER NOT NULL,
                 admin_name TEXT,
-                subscrption TEXT,
-                giveaways TEXT
+                subscrption TEXT
             )
         """)
 

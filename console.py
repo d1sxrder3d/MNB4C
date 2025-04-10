@@ -6,7 +6,19 @@ from db.users_db.users_db import UserDB
 
 def choose_db():
     command = input("Введите название базы данных: ")
-    if command == "giveaway_db":
+    if command == "delete_all":
+        GiveawayDB().delete_table()
+        AdminDB().delete_table()
+        UserDB().delete_table()
+        TicketDB().delete_table()
+        choose_db()
+    elif command == "create_all":
+        GiveawayDB().create_table()
+        AdminDB().create_table()
+        UserDB().create_table()
+        TicketDB().create_table()
+        choose_db()
+    elif command == "giveaway_db":
         return commands(GiveawayDB())
     elif command == "admins_db":
         return commands(AdminDB())

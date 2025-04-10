@@ -11,13 +11,16 @@ class TicketDB:
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
 
+        cursor.execute("PRAGMA foreign_keys = ON")
+        
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS tickets_db (
                 ticket_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_id INTEGER NOT NULL,
                 giveaway_id INTEGER NOT NULL,
-                is_freeze BOOLEAN DEFAULT FALSE
-                
+                is_freeze BOOLEAN DEFAULT FALSE,
+                FOREIGN KEY (user_id) REFERENCES users_db(user_id) ON DELETE CASCADE,
+                FOREIGN KEY (giveaway_id) REFERENCES giveaways_db(giveaway_id) ON DELETE CASCADE
             )
         """)
     

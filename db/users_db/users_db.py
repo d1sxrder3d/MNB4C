@@ -12,6 +12,8 @@ class UserDB:
     def create_table(self):
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
+        
+        cursor.execute("PRAGMA foreign_keys = ON")
 
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS users_db (

@@ -12,9 +12,11 @@ class GiveawayDB:
         self.db_name = os.path.join(os.path.dirname("db/giveaway_db"), db_name)
 
     def create_table(self):
-        
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
+        
+        cursor.execute("PRAGMA foreign_keys = ON")
+
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS giveaways_db (
                 giveaway_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -22,9 +24,11 @@ class GiveawayDB:
                 is_in_catalog BOOLEAN DEFAULT FALSE,
                 needed_channels TEXT,
                 end_date TEXT,
+                admin_id INTEGER,
                 tickets_count INTEGER DEFAULT 0,
                 winners_count INTEGER DEFAULT 1,
-                winners TEXT DEFAULT ""
+                winners TEXT DEFAULT "",
+                FOREIGN KEY (admin_id) REFERENCES admins_db(admin_id) ON DELETE CASCADE
             )
         """)
         conn.commit()
