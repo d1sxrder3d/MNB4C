@@ -12,7 +12,7 @@ from aiogram.utils.keyboard import ReplyKeyboardBuilder, KeyboardButton
 from dotenv import load_dotenv
 
 from db.giveaway_db.giveaway_db import GiveawayDB
-from core.users.admin import Admin, Subscription
+from core.admins.admin import Admin, Subscription
 from core.date.date import Date
 from core.giveaway.giveaway import Giveaways
 
@@ -35,7 +35,7 @@ admin_users: dict[int, Admin] = {}
 
 
 class ContestRegistration(StatesGroup):
-    """States for registering a new contest."""
+    #States for registering a new contest.
     waiting_for_contest_name = State()
     waiting_for_contest_channels = State()
     waiting_for_contest_end_date = State()
@@ -85,11 +85,17 @@ async def process_my_giveaways(message: types.Message):
     """Handles the 'my_giveaways' button."""
     user_id = message.from_user.id
     admin = admin_users.get(user_id)
+    admin.giveaways = giveaway_db.get_contest_by_id(admin.user_id)
     if admin:
         if admin.giveaways:
             response = "Ваши розыгрыши:\n"
             for giveaway in admin.giveaways:
                 response += f"- {giveaway.title} (ID: {giveaway.id})\n"
+        # elif giveaway_db.get_contest_by_id(admin.user_id):
+        #     response = "Ваши розыгрыши:\n"
+        #     for giveaway in admin.giveaways:
+        #         response += f"- {giveaway.title} (ID: {giveaway.id})\n"
+
         else:
             response = "У вас пока нет созданных розыгрышей."
     else:
@@ -111,7 +117,7 @@ async def process_list_contests(message: types.Message):
 
 @dp.message(ContestRegistration.waiting_for_contest_name)
 async def get_contest_name(message: types.Message, state: FSMContext):
-    """Gets the contest name."""
+    
     await state.update_data(contest_name=message.text)
     await message.answer(
         "Отлично! Теперь введите названия телеграм каналов, на которые нужно подписаться, через запятую (например: @channel1, @channel2, @channel3):",
@@ -229,5 +235,6 @@ async def start_admin_bot():
     """Starts the admin bot."""
     try:
         await dp.start_polling(bot)
+        
     finally:
         await bot.session.close()

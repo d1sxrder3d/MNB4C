@@ -21,7 +21,6 @@ class GiveawayDB:
             CREATE TABLE IF NOT EXISTS contests (
                 giveaway_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 giveaway_title TEXT NOT NULL,
-                creator_id INTEGER NOT NULL,
                 is_in_catalog BOOLEAN DEFAULT FALSE,
                 needed_channels TEXT,
                 end_date TEXT
@@ -38,14 +37,14 @@ class GiveawayDB:
         conn.commit()
         conn.close()
 
-    def add_contest(self, giveaway_title: str, creator_id: int, needed_channels: List[str], is_in_catalog: bool = False, end_date: Date = None):
+    def add_contest(self, giveaway_title: str, needed_channels: List[str], is_in_catalog: bool = False, end_date: Date = None):
         """Adds a new contest to the database."""
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
         needed_channels_str = ",".join(needed_channels) if needed_channels else ""  # Преобразуем список в строку
         cursor.execute(
-            "INSERT INTO contests (giveaway_title, creator_id, is_in_catalog, needed_channels, end_date) VALUES (?, ?, ?, ?, ?)",
-            (giveaway_title, creator_id, is_in_catalog, needed_channels_str, end_date)  # Изменен порядок параметров
+            "INSERT INTO contests (giveaway_title, is_in_catalog, needed_channels, end_date) VALUES (?, ?, ?, ?)",
+            (giveaway_title, is_in_catalog, needed_channels_str, end_date)  # Изменен порядок параметров
         )
         conn.commit()
         conn.close()
@@ -59,14 +58,6 @@ class GiveawayDB:
         conn.close()
         return contests
 
-    def get_contest_by_id(self, contest_id: int) -> Optional[tuple]:
-        """Retrieves a contest by its ID."""
-        conn = sqlite3.connect(self.db_name)
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM contests WHERE giveaway_id = ?", (contest_id,))
-        contest = cursor.fetchone()
-        conn.close()
-        return contest
 
     def delete_contest(self, contest_id: int):
         """Deletes a contest by its ID."""

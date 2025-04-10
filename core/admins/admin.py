@@ -1,4 +1,5 @@
 from core.date.date import Date
+from db.admins_db.admins_db import AdminDB
 
 
 
@@ -39,7 +40,12 @@ class Admin:
         self.user_name = user_name
         self.subscription = subscription
         self.giveaways = giveaways
+
     def add_giveaway(self, giveaway):
+        """Adds a giveaway to the admin's list."""
+        db = AdminDB()
+        db.add_admin(self.user_id, self.user_name, self.subscription, self.giveaways)
+        
         self.giveaways.append(giveaway)
     def subscribe(self, subscription):
         self.subscription = subscription
