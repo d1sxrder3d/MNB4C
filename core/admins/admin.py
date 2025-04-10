@@ -49,7 +49,7 @@ class Admin:
         self.giveaways = giveaways
 
     def add_giveaway(self, giveaway_id):
-        """Добавляет ID конкурса в список конкурсов админа."""
+        
         self.giveaways.append(giveaway_id)
 
     def subscribe(self, subscription):

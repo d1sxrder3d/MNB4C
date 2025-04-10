@@ -11,7 +11,7 @@ class AdminDB:
         self.db_name = os.path.join(os.path.dirname("db/admins_db"), db_name)
 
     def create_table(self):
-        """Создает таблицу админов, если она не существует."""
+        
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
 
@@ -28,7 +28,7 @@ class AdminDB:
         conn.close()
 
     def delete_table(self):
-        """Удаляет таблицу админов."""
+        
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
 
@@ -38,7 +38,7 @@ class AdminDB:
         conn.close()
 
     def add_admin(self, user_id, user_name, subscription, giveaways):
-        """Добавляет нового админа в базу данных."""
+        
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
 
@@ -51,7 +51,7 @@ class AdminDB:
         conn.close()
 
     def get_admin_by_id(self, admin_id: int) -> Optional[tuple]:
-        """Получает админа по его ID."""
+        
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
 
@@ -67,7 +67,7 @@ class AdminDB:
         return None
 
     def get_all_admins(self) -> List[tuple]:
-        """Получает всех админов из базы данных."""
+        
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM admins_db")
@@ -82,7 +82,7 @@ class AdminDB:
         return admins
 
     def update_admin(self, user_id, user_name, subscription, giveaways):
-        """Обновляет данные админа в базе данных."""
+        
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
 

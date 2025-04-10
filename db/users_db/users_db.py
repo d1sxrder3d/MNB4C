@@ -52,7 +52,7 @@ class UserDB:
         cursor = conn.cursor()
 
         cursor.execute("""
-            INSERT INTO giveaways_db (user_id, user_name)
+            INSERT INTO users_db (user_id, user_name)
             VALUES (?, ?)
         """, (user.user_id, user.user_name))
 

@@ -7,13 +7,13 @@ class Giveaways:
             giveaway_id: int,
             title: str,
             end_date: Date,
-            needed_chanels: list,  # Исправлено на list
+            needed_chanels: list,  
             is_in_catalog: bool = False,
             tickets_count: int = 0,
             winners_count: int = 1,
             winners: str = ""
     ):
-        self.giveaway_id = giveaway_id  # Исправлено: self.id -> self.giveaway_id
+        self.giveaway_id = giveaway_id
         self.title = title
         self.end_date = end_date
         self.needed_channels = needed_chanels

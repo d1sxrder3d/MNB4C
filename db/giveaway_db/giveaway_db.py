@@ -6,13 +6,13 @@ from core.date.date import Date
 
 
 class GiveawayDB:
-    """Class for interacting with the giveaway contests database."""
+    
 
     def __init__(self, db_name: str = "data.db"):
         self.db_name = os.path.join(os.path.dirname("db/giveaway_db"), db_name)
 
     def create_table(self):
-        """Creates the contests table if it doesn't exist."""
+        
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
         cursor.execute("""
@@ -31,7 +31,7 @@ class GiveawayDB:
         conn.close()
 
     def delete_table(self):
-        """Deletes the contests table if it exists."""
+        
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
         cursor.execute("DROP TABLE IF EXISTS giveaways_db")
@@ -40,7 +40,7 @@ class GiveawayDB:
 
     def add_contest(self, giveaway_title: str, needed_channels: List[str], is_in_catalog: bool = False,
                     end_date: Date = None):
-        """Adds a new contest to the database."""
+        
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
         needed_channels_str = ",".join(needed_channels) if needed_channels else ""
@@ -52,7 +52,7 @@ class GiveawayDB:
         conn.close()
 
     def get_all_contests(self) -> List[tuple]:
-        """Retrieves all giveaways_db from the database."""
+        
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM giveaways_db")
@@ -61,7 +61,7 @@ class GiveawayDB:
         return contests
 
     def delete_contest(self, contest_id: int):
-        """Deletes a giveaways_db by its ID."""
+        
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
         cursor.execute("DELETE FROM giveaways_db WHERE giveaway_id = ?", (contest_id,))
@@ -77,7 +77,7 @@ class GiveawayDB:
         return None
 
     def get_contest_by_id(self, contest_id: int) -> Optional[tuple]:
-        """Получает конкурс по его ID."""
+        
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
 
