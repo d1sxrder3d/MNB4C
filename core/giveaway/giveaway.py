@@ -7,7 +7,6 @@ class Giveaways:
             giveaway_id: int,
             title: str,
             end_date: Date,
-            needed_chanels: list,  
             is_in_catalog: bool = False,
             tickets_count: int = 0,
             winners_count: int = 1,
@@ -21,5 +20,4 @@ class Giveaways:
 
     def __str__(self):
         return f"""Giveaway(id={self.giveaway_id}, title={self.title}, 
-        end_date={self.end_date}, needed_channels={self.needed_channels}, 
-        is_in_catalog={self.is_in_catalog})"""
+        end_date={self.end_date}, is_in_catalog={self.is_in_catalog})"""

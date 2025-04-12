@@ -3,7 +3,7 @@ import sqlite3
 import os
 from typing import List, Optional
 from core.date.date import Date
-from core.admins.admin import Subscription
+from core.admin.admin import Subscription
 
 
 class AdminDB:
@@ -21,7 +21,8 @@ class AdminDB:
             CREATE TABLE IF NOT EXISTS admins_db (
                 admin_id INTEGER NOT NULL,
                 admin_name TEXT,
-                subscrption TEXT
+                subscrption_id INTEGER,
+                FOREIGN KEY (subscrption_id) REFERENCES subscriptions_db(subscrption_id) ON DELETE CASCADE
             )
         """)
 

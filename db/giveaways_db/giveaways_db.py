@@ -42,7 +42,7 @@ class GiveawayDB:
         conn.commit()
         conn.close()
 
-    def add_contest(self, giveaway_title: str, needed_channels: List[str], is_in_catalog: bool = False,
+    def add_giveaway(self, giveaway_title: str, needed_channels: List[str], is_in_catalog: bool = False,
                     end_date: Date = None):
         
         conn = sqlite3.connect(self.db_name)
@@ -55,7 +55,7 @@ class GiveawayDB:
         conn.commit()
         conn.close()
 
-    def get_all_contests(self) -> List[tuple]:
+    def get_all_giveaways(self) -> List[tuple]:
         
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
@@ -64,7 +64,7 @@ class GiveawayDB:
         conn.close()
         return contests
 
-    def delete_contest(self, contest_id: int):
+    def delete_giveaway_by_id(self, contest_id: int):
         
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
@@ -72,7 +72,7 @@ class GiveawayDB:
         conn.commit()
         conn.close()
 
-    def get_channels_for_contest(self, contest_id: int) -> List[str] | None:
+    def get_channels_for_giveaway(self, contest_id: int) -> List[str] | None:
         """Retrieves the list of channels for a specific contest."""
         contest = self.get_contest_by_id(contest_id)
         if contest:
@@ -80,7 +80,7 @@ class GiveawayDB:
             return channels_str.split(",") if channels_str else []
         return None
 
-    def get_contest_by_id(self, contest_id: int) -> Optional[tuple]:
+    def get_giveaway_by_id(self, contest_id: int) -> Optional[tuple]:
         
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
