@@ -15,7 +15,6 @@ class Giveaways:
         self.giveaway_id = giveaway_id
         self.title = title
         self.end_date = end_date
-        self.needed_channels = needed_chanels
         self.is_in_catalog = is_in_catalog
 
     def __str__(self):

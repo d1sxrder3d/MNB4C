@@ -6,9 +6,9 @@ class User:
             self, 
             user_id: int, 
             user_name: str, 
-            user_tickets: array = [],
-            user_giveaways: array = [],
-            sent_messages: array = [],
+            user_tickets: list = [],
+            user_giveaways: list = [],
+            sent_messages: list = [],
             isbloked: bool = False, 
             isbanned: bool = False
 

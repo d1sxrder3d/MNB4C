@@ -4,6 +4,8 @@ import os
 from typing import List, Optional
 from core.date.date import Date
 from core.admin.admin import Subscription
+from db.subscriptions_db.subscriptions_db import SubscriptionDB
+
 
 
 class AdminDB:
@@ -11,7 +13,7 @@ class AdminDB:
         self.db_name = os.path.join(os.path.dirname("db/admins_db"), db_name)
 
     def create_table(self):
-        
+
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
 
@@ -21,8 +23,8 @@ class AdminDB:
             CREATE TABLE IF NOT EXISTS admins_db (
                 admin_id INTEGER NOT NULL,
                 admin_name TEXT,
-                subscrption_id INTEGER,
-                FOREIGN KEY (subscrption_id) REFERENCES subscriptions_db(subscrption_id) ON DELETE CASCADE
+                subscription_id INTEGER,
+                FOREIGN KEY (subscription_id) REFERENCES subscriptions_db(subscription_id) ON DELETE CASCADE
             )
         """)
 
@@ -30,7 +32,7 @@ class AdminDB:
         conn.close()
 
     def delete_table(self):
-        
+
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
 
@@ -39,21 +41,27 @@ class AdminDB:
         conn.commit()
         conn.close()
 
-    def add_admin(self, user_id, user_name, subscription, giveaways):
+    def add_admin(self, user_id: int, user_name: str, subscription: Subscription = Subscription(), giveaways: List[int] = []):
+        
+        subscription_db = SubscriptionDB()
+
+        subscription_id = subscription_db.add_subscription(user_id, subscription) # Изменено здесь
         
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
 
+        
+
         cursor.execute(
-            "INSERT INTO admins_db (admin_id, admin_name, subscrption, giveaways) VALUES (?, ?, ?, ?)",
-            (user_id, user_name, str(subscription), ",".join(map(str, giveaways)))
+            "INSERT INTO admins_db (admin_id, admin_name, subscription_id) VALUES (?, ?, ?)",
+            (user_id, user_name, subscription_id)
         )
 
         conn.commit()
         conn.close()
 
     def get_admin_by_id(self, admin_id: int) -> Optional[tuple]:
-        
+
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
 
@@ -62,14 +70,14 @@ class AdminDB:
         admin_data = cursor.fetchone()
         conn.close()
         if admin_data:
-            admin_id, admin_name, subscription_str, giveaway_ids_str = admin_data
-            subscription = Subscription.from_string(subscription_str)
-            giveaway_ids = [int(id) for id in giveaway_ids_str.split(',') if giveaway_ids_str] if giveaway_ids_str else []
-            return admin_id, admin_name, subscription, giveaway_ids
+            admin_id, admin_name, subscription_id = admin_data
+            subscription_db = SubscriptionDB()
+            subscription = subscription_db.get_subscription_by_id(subscription_id)
+            return admin_id, admin_name, subscription
         return None
 
     def get_all_admins(self) -> List[tuple]:
-        
+
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM admins_db")
@@ -77,14 +85,14 @@ class AdminDB:
         conn.close()
         admins = []
         for admin_data in admins_data:
-            admin_id, admin_name, subscription_str, giveaway_ids_str = admin_data
-            subscription = Subscription.from_string(subscription_str)
-            giveaway_ids = [int(id) for id in giveaway_ids_str.split(',') if giveaway_ids_str] if giveaway_ids_str else []
-            admins.append((admin_id, admin_name, subscription, giveaway_ids))
+            admin_id, admin_name, subscription_id = admin_data
+            subscription_db = SubscriptionDB()
+            subscription = subscription_db.get_subscription_by_id(subscription_id)
+            admins.append((admin_id, admin_name, subscription))
         return admins
 
     def update_admin(self, user_id, user_name, subscription, giveaways):
-        
+
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
 
@@ -96,4 +104,4 @@ class AdminDB:
         conn.commit()
         conn.close()
 
-    
+

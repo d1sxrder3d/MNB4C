@@ -43,7 +43,7 @@ class GiveawayDB:
         conn.close()
 
     def add_giveaway(self, giveaway_title: str, needed_channels: List[str], is_in_catalog: bool = False,
-                    end_date: Date = None):
+                    end_date: Date = Date()):
         
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
@@ -74,7 +74,7 @@ class GiveawayDB:
 
     def get_channels_for_giveaway(self, contest_id: int) -> List[str] | None:
         """Retrieves the list of channels for a specific contest."""
-        contest = self.get_contest_by_id(contest_id)
+        contest = self.get_giveaway_by_id(contest_id)
         if contest:
             channels_str = contest[3]  # Assuming channels are in the 4th column (index 3)
             return channels_str.split(",") if channels_str else []

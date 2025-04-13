@@ -26,6 +26,22 @@ def choose_db():
         TicketDB().create_table()
         choose_db()
 
+    elif command == "del_create":
+        ChannelDB().delete_table()
+        SubscriptionDB().delete_table()
+        GiveawayDB().delete_table()
+        AdminDB().delete_table()
+        UserDB().delete_table()
+        TicketDB().delete_table()
+
+        ChannelDB().create_table()
+        SubscriptionDB().create_table()
+        GiveawayDB().create_table()
+        AdminDB().create_table()
+        UserDB().create_table()
+        TicketDB().create_table()
+        choose_db()
+
     elif command == "channels_db":
         return commands(ChannelDB())
     
@@ -66,7 +82,7 @@ def commands(db):
         choose_db()
         
     else:
-        commands()
+        commands(db)
 
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
 import sqlite3
 import os
-import array
+from typing import List
 
 
 class TicketDB:
@@ -47,7 +47,7 @@ class TicketDB:
         conn.commit()
         conn.close()
         
-    def get_user_tickets(self, user_id: int) -> array:
+    def get_user_tickets(self, user_id: int) -> list[tuple]:
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
 

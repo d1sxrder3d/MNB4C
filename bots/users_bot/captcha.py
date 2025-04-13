@@ -20,6 +20,6 @@ def GenerateCaptchaPattern():
 
 def GenerateCaptchaImage(pattern):
 
-    image_captcha = ImageCaptcha(300, 200, font_sizes=[90])
+    image_captcha = ImageCaptcha(300, 200, font_sizes=(90,))
     
     image_captcha.write(pattern, "captcha.png")

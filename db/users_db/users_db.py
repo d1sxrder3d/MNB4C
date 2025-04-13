@@ -1,6 +1,6 @@
 import sqlite3
 import os
-from typing import List, Optional
+from typing import List, Optional, Union
 from core.users.users import User
 
 
@@ -37,27 +37,36 @@ class UserDB:
         conn.commit()
         conn.close()
     
-    def add_user(self, user_id: int, user_name: str):
+    def add_user(self, user_or_id: Union[User, int], user_name: Optional[str] = None):
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
 
-        cursor.execute("""
-            INSERT INTO users_db (user_id, user_name)
-            VALUES (?, ?)
-        """, (user_id, user_name))
+        if isinstance(user_or_id, User):
+            # Случай, когда передан объект User
+            user = user_or_id
+            cursor.execute("""
+                INSERT INTO users_db (user_id, user_name)
+                VALUES (?, ?)
+            """, (user.user_id, user.user_name))
+        elif isinstance(user_or_id, int) and user_name is not None:
+            # Случай, когда переданы user_id и user_name
+            cursor.execute("""
+                INSERT INTO users_db (user_id, user_name)
+                VALUES (?, ?)
+            """, (user_or_id, user_name))
+        elif isinstance(user_or_id, int) and user_name is None:
+            user_name = "None"
+
+            cursor.execute("""
+                INSERT INTO users_db (user_id, user_name)
+                VALUES (?, ?)
+            """, (user_or_id, user_name))
+            
+        else:
+            raise TypeError("Invalid arguments for add_user")
 
         conn.commit()
         conn.close()
-
-    def add_user(self,user: User):
-        conn = sqlite3.connect(self.db_name)
-        cursor = conn.cursor()
-
-        cursor.execute("""
-            INSERT INTO users_db (user_id, user_name)
-            VALUES (?, ?)
-        """, (user.user_id, user.user_name))
-
 
     def block_user(self, user_id: int):
         conn = sqlite3.connect(self.db_name)
@@ -124,7 +133,7 @@ class UserDB:
         conn.close()
 
     def get_user_by_id(self, user_id: int) -> Optional[tuple]:
-        conn = sqlite3(self.db_name)
+        conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
 
         cursor.execute("""

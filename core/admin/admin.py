@@ -1,6 +1,5 @@
 # core/admins/admin.py
 from core.date.date import Date
-# from db.admins_db.admins_db import AdminDB
 
 
 class Subscription:
@@ -12,14 +11,14 @@ class Subscription:
 
     def __init__(
             self,
-            subscriptin_end_time: Date = None,
-            subscriptin_level: SubscriptionLevel = SubscriptionLevel.NONE
+            subscriptin_end_time: Date = Date(),
+            subscriptin_level: int = SubscriptionLevel.NONE # Изменено здесь
     ):
         self.subscriptin_level = subscriptin_level
         self.subscriptin_end_time = subscriptin_end_time
 
     def __str__(self):
-        if self.subscriptin_level == 0:
+        if self.subscriptin_level == Subscription.SubscriptionLevel.NONE:
             return f"NONE"
         return f"{self.subscriptin_level},{self.subscriptin_end_time}"
 
@@ -31,7 +30,7 @@ class Subscription:
         subscriptin_level = int(subscriptin_level_str)
         day, month = map(int, subscriptin_end_time_str.split('.'))
         subscriptin_end_time = Date(day=day, month=month)
-        return Subscription(subscriptin_end_time, subscriptin_level)
+        return Subscription(subscriptin_end_time, subscriptin_level) # Изменено здесь
 
 
 class Admin:
