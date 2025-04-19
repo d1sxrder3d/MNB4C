@@ -2,12 +2,11 @@ import sqlite3
 import os
 from typing import List, Optional, Union
 from core.users.users import User
+from db.core_db.core_db import CoreDB
 
 
 
-class UserDB:
-    def __init__(self, db_name: str = "data.db"):
-        self.db_name = os.path.join(os.path.dirname("db/users_db"), db_name)
+class UserDB(CoreDB):
 
     def create_table(self):
         conn = sqlite3.connect(self.db_name)

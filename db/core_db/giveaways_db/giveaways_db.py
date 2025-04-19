@@ -3,14 +3,12 @@ import sqlite3
 import os
 from typing import List, Optional
 from core.date.date import Date
+from db.core_db.core_db import CoreDB
 
 
-class GiveawayDB:
+
+class GiveawayDB(CoreDB):
     
-
-    def __init__(self, db_name: str = "data.db"):
-        self.db_name = os.path.join(os.path.dirname("db/giveaway_db"), db_name)
-
     def create_table(self):
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()

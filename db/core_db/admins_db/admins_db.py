@@ -4,14 +4,12 @@ import os
 from typing import List, Optional
 from core.date.date import Date
 from core.admin.admin import Subscription
-from db.subscriptions_db.subscriptions_db import SubscriptionDB
+from db.core_db.core_db import CoreDB
+from db.core_db.subscriptions_db.subscriptions_db import SubscriptionDB
 
 
 
-class AdminDB:
-    def __init__(self, db_name: str = "data.db"):
-        self.db_name = os.path.join(os.path.dirname("db/admins_db"), db_name)
-
+class AdminDB(CoreDB):
     def create_table(self):
 
         conn = sqlite3.connect(self.db_name)
@@ -76,20 +74,14 @@ class AdminDB:
             return admin_id, admin_name, subscription
         return None
 
-    def get_all_admins(self) -> List[tuple]:
-
+    def get_all_admins(self):
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM admins_db")
+
+        cursor.execute("SELECT admin_id, admin_name, subscription_id FROM admins_db")
         admins_data = cursor.fetchall()
         conn.close()
-        admins = []
-        for admin_data in admins_data:
-            admin_id, admin_name, subscription_id = admin_data
-            subscription_db = SubscriptionDB()
-            subscription = subscription_db.get_subscription_by_id(subscription_id)
-            admins.append((admin_id, admin_name, subscription))
-        return admins
+        return admins_data
 
     def update_admin(self, user_id, user_name, subscription, giveaways):
 

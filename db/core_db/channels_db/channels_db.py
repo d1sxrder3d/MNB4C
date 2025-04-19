@@ -1,11 +1,10 @@
 import os
 import sqlite3
+from db.core_db.core_db import CoreDB
 
 
-class ChannelDB:
-    def __init__(self, db_name: str = "data.db"):
-        self.db_name = os.path.join(os.path.dirname("db/channels_db"), db_name)
-
+class ChannelDB(CoreDB):
+    
     def create_table(self):
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()

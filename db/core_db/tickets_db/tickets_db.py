@@ -1,11 +1,11 @@
 import sqlite3
 import os
 from typing import List
+from db.core_db.core_db import CoreDB
 
 
-class TicketDB:
-    def __init__(self, db_name: str = "data.db"):
-        self.db_name = os.path.join(os.path.dirname("db/tickets_db"), db_name)
+
+class TicketDB(CoreDB):
 
     def create_table(self):
         conn = sqlite3.connect(self.db_name)
